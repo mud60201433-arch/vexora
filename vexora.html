@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vexora - Premium Global Marketplace Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-hover: #1d4ed8;
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 29, 49, 0.7);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-color: #10b981;
+            --neon-glow: 0 0 15px rgba(59, 130, 246, 0.4);
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+            --radius: 16px;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --danger-color: #ef4444;
+            --warning-color: #fbbf24;
+            --glass-bg: rgba(15, 23, 42, 0.6);
+        }
+
+        body.light-theme {
+            --bg-color: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* 3D Intro Splash Screen */
+        #intro-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #1e293b 0%, #070a12 100%);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .intro-box {
+            text-align: center;
+            transform-style: preserve-3d;
+            animation: float3D 4s ease-in-out infinite;
+        }
+
+        .intro-title {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            color: #ffffff;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5), var(--neon-glow);
+        }
+
+        @keyframes float3D {
+            0%, 100% { transform: rotateY(-10deg) rotateX(5deg) translateY(0px); }
+            50% { transform: rotateY(10deg) rotateX(-5deg) translateY(-15px); }
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        body.light-theme .navbar {
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .nav-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .nav-logo {
+            font-size: 1.7rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-main) 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-logo span { color: var(--primary-color); -webkit-text-fill-color: initial; }
+
+        /* Search Bar Combo */
+        .search-wrapper {
+            display: flex;
+            width: 40%;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 4px;
+            transition: all 0.3s;
+        }
+
+        body.light-theme .search-wrapper {
+            background: rgba(241, 245, 249, 1);
+        }
+
+        .search-wrapper:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        .category-select {
+            background: transparent;
+            color: var(--text-main);
+            border: none;
+            outline: none;
+            padding: 0 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .category-select option {
+            background-color: #0f172a;
+            color: #fff;
+        }
+
+        .search-wrapper input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 0.6rem 1rem;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .search-wrapper button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 1.2rem;
+            border-radius: calc(var(--radius) - 4px);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .search-wrapper button:hover { background-color: var(--primary-hover); }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            position: relative;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            transition: all 0.3s;
+        }
+
+        body.light-theme .icon-btn {
+            background: rgba(241, 245, 249, 1);
+        }
+
+        .icon-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -2px;
+            right: -4px;
+            background: var(--danger-color);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        /* BRANDING HEADLINE AREA */
+        .platform-headline-strip {
+            max-width: 1300px;
+            margin: 1.5rem auto 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .headline-container {
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px dashed rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .brand-meta-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-icon-shield {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: var(--neon-glow);
+            animation: pulseGlow 3s infinite;
+        }
+
+        .brand-details-text h2 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+        }
+
+        .brand-details-text p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .live-stats-badge-rack {
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-badge-pill {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stat-badge-pill .dot-pulse {
+            width: 7px;
+            height: 7px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: inline-block;
+            animation: dotBlink 1.5s infinite;
+        }
+
+        @keyframes dotBlink {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.7); }
+        }
+
+        /* 🆕 ADVANCED KPI BANNER ROWS (Professional Add-on) */
+        .promo-banner-rack {
+            max-width: 1300px;
+            margin: 1rem auto 0 auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .promo-mini-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .promo-mini-card i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .promo-mini-card.accent i { color: var(--accent-color); }
+        .promo-mini-card.warning i { color: var(--warning-color); }
+
+        .promo-card-text h4 { font-size: 0.85rem; font-weight: 700; color: var(--text-main); }
+        .promo-card-text p { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Utilities Controls Layout */
+        .controls-pane {
+            max-width: 1300px;
+            margin: 1rem auto 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .custom-select, .interactive-btn {
+            background: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 10px;
+            outline: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        
+        .interactive-btn:hover {
+            border-color: var(--primary-color);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Marketplace Main Wrapper */
+        .container {
+            max-width: 1300px;
+            margin: 1.5rem auto 4rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Advanced Card Styling with Multi-Vendor Layout */
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px -10px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Header Area on Card: Market and Shop Info */
+        .card-market-header {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .market-title-badge {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .shop-name-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-badges {
+            position: absolute;
+            top: 55px;
+            left: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 2;
+        }
+
+        .product-badge {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #a855f7 100%);
+            color: white;
+            padding: 3px 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .stock-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-color);
+            padding: 2px 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            border-radius: 4px;
+            width: fit-content;
+        }
+        .stock-badge.out {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger-color);
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 55px;
+            right: 12px;
+            z-index: 2;
+            background: rgba(15, 23, 42, 0.6);
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .wishlist-btn.active i { color: var(--danger-color); }
+
+        .product-image-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover .product-image { transform: scale(1.05); }
+
+        /* Multi-Currency Tooltips & Compare Badges */
+        .card-meta-metrics {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border-color);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* Rating Stars System */
+        .rating-stars {
+            color: #fbbf24;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .rating-count {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            margin-left: 4px;
+        }
+
+        .product-details {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            line-height: 1.4;
+            height: 44px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            margin-bottom: 1rem;
+        }
+
+        .price-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            font-weight: 800;
+        }
+
+        .old-price {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .card-action-btns {
+            display: grid;
+            grid-template-columns: 1fr 45px;
+            gap: 8px;
+        }
+
+        .btn-add-cart {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-add-cart:hover { background: var(--primary-hover); }
+
+        .btn-quick-view {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-quick-view:hover { background: rgba(255,255,255,0.15); }
+
+        /* Drawers & Modals */
+        .cart-drawer {
+            position: fixed;
+            top: 0; right: -420px;
+            width: 400px; height: 100%;
+            background: var(--bg-color);
+            border-left: 1px solid var(--border-color);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
+        .cart-drawer.active { right: 0; }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-items-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-item-img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
+
+        /* Quick View Modal styling */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: none;
+            justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            max-width: 750px;
+            width: 90%;
+            position: relative;
+            display: flex; gap: 30px;
+        }
+        .close-modal { position: absolute; top: 15px; right: 15px; cursor: pointer; font-size: 1.2rem; }
+
+        /* Analytics Monitor Board */
+        .analytics-drawer {
+            position: fixed;
+            top: 0; left: -420px;
+            width: 400px; height: 100%;
+            background: var(--bg-color);
+            border-right: 1px solid var(--border-color);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
+        .analytics-drawer.active { left: 0; }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px; left: 20px;
+            background: #1e293b;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 3000;
+            border-left: 4px solid var(--primary-color);
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .modal-content { flex-direction: column; padding: 1.5rem; }
+            .modal-content img { width: 100% !important; height: 180px !important; }
+            .search-wrapper { width: 100%; order: 3; margin-top: 10px; }
+            .navbar { flex-wrap: wrap; }
+            .cart-drawer, .analytics-drawer { width: 100%; right: -100%; }
+            .analytics-drawer { left: -100%; }
+            .headline-container { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay">
+        <div class="intro-box">
+            <h1 class="intro-title">VEXORA</h1>
+            <p style="color: var(--accent-color); font-weight:600; letter-spacing:3px;">GLOBAL ECOSYSTEM</p>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-logo-container" onclick="location.reload()">
+            <div class="nav-logo"><i class="fa-solid fa-cubes"></i> Vexora<span>.</span></div>
+        </div>
+
+        <div class="search-wrapper">
+            <select id="category-filter" class="category-select">
+                <option value="all">All Ecosystems</option>
+                <option value="electronics">Electronics</option>
+                <option value="audio">Audio Tech</option>
+                <option value="wearables">Wearables</option>
+                <option value="gaming">Gaming Gears</option>
+            </select>
+            <input type="text" id="search-input" placeholder="Search by item, store name or platform branch...">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="nav-actions">
+            <button class="icon-btn" id="analytics-toggle" title="Platform Analytics Monitor"><i class="fa-solid fa-chart-pie"></i></button>
+            <button class="icon-btn" id="theme-toggle" title="Switch Theme"><i class="fas fa-moon"></i></button>
+            <button class="icon-btn" id="wishlist-toggle-panel" title="Wishlist Stack">
+                <i class="fas fa-heart"></i>
+                <span id="wishlist-count" class="badge-count">0</span>
+            </button>
+            <button class="icon-btn" id="cart-toggle" title="E-Bag">
+                <i class="fas fa-shopping-bag"></i>
+                <span id="cart-count" class="badge-count">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <section class="platform-headline-strip">
+        <div class="headline-container">
+            <div class="brand-meta-wrapper">
+                <div class="brand-icon-shield">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div class="brand-details-text">
+                    <h2>Vexora Core Distribution Node</h2>
+                    <p>Verified Secure Enterprise Logistics & Smart Merchandising Channel</p>
+                </div>
+            </div>
+            <div class="live-stats-badge-rack">
+                <div class="stat-badge-pill">
+                    <span class="dot-pulse"></span> Network: <span style="color: var(--accent-color);">Operational</span>
+                </div>
+                <div class="stat-badge-pill" id="live-visitor-count">
+                    <i class="fa-solid fa-users"></i> Users Live: 1,482
+                </div>
+                <div class="stat-badge-pill">
+                    <i class="fa-solid fa-shield-halved" style="color: var(--primary-color);"></i> SSL 256-Bit
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="promo-banner-rack">
+        <div class="promo-mini-card">
+            <i class="fa-solid fa-globe"></i>
+            <div class="promo-card-text">
+                <h4>Global Node Delivery</h4>
+                <p>Free custom handling on multi-currency nodes</p>
+            </div>
+        </div>
+        <div class="promo-mini-card accent">
+            <i class="fa-solid fa-handshake-angle"></i>
+            <div class="promo-card-text">
+                <h4>Verified Multi-Vendors</h4>
+                <p>100% Authentic hardware distribution standard</p>
+            </div>
+        </div>
+        <div class="promo-mini-card warning">
+            <i class="fa-solid fa-rotate-left"></i>
+            <div class="promo-card-text">
+                <h4>30-Day Escrow Buffer</h4>
+                <p>Instant node reflection on refund rollbacks</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="controls-pane">
+        <div style="font-weight: 700; font-size: 1.1rem;"><i class="fa-solid fa-sliders"></i> Marketplace Filters</div>
+        <div class="filter-group">
+            <button class="interactive-btn" onclick="flashDealsFilter()" id="flash-deal-btn"><i class="fa-solid fa-bolt" style="color: var(--warning-color)"></i> Flash Sale</button>
+            <select id="sort-filter" class="custom-select" onchange="filterAndSortEngine()">
+                <option value="default">Sort: Relevance</option>
+                <option value="low-high">Price: Low to High</option>
+                <option value="high-low">Price: High to Low</option>
+                <option value="rating">Top Customer Rated</option>
+                <option value="discount">Highest Discount</option>
+            </select>
+            <select id="vendor-filter" class="custom-select" onchange="filterAndSortEngine()">
+                <option value="all">All Vendor Shops</option>
+                <option value="Alpha Tech Lab">Alpha Tech Lab</option>
+                <option value="Sonic Waves">Sonic Waves</option>
+                <option value="Click Dynamics">Click Dynamics</option>
+                <option value="Logi Express">Logi Express</option>
+            </select>
+            <select id="stock-filter" class="custom-select" onchange="filterAndSortEngine()">
+                <option value="all">Availability: All</option>
+                <option value="in">In Stock Only</option>
+            </select>
+            <select id="currency-changer" class="custom-select" onchange="changeCurrency(this.value)">
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="PKR">PKR (Rs)</option>
+            </select>
+        </div>
+    </div>
+
+    <main class="container">
+        <div id="products-grid" class="products-grid"></div>
+    </main>
+
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-cart-shopping"></i> Verified Checkout Bag</h3>
+            <i class="fas fa-times" id="close-cart" style="cursor:pointer; font-size:1.2rem;"></i>
+        </div>
+        <div class="cart-items-container" id="cart-items-container"></div>
+        <div style="margin-top:auto; padding-top:1rem; border-top:1px solid var(--border-color)">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; color:var(--text-muted); font-size:0.9rem;">
+                <span>Ecosystem Platform Tax:</span>
+                <span style="color: var(--accent-color); font-weight:700;">FREE</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:1rem; font-weight:800; font-size:1.2rem;">
+                <span>Total Amount:</span>
+                <span id="cart-total-amount" style="color:var(--accent-color);">$0.00</span>
+            </div>
+            <button style="width:100%; background:var(--accent-color); color:white; border:none; padding:1rem; border-radius:12px; font-weight:700; cursor:pointer; font-size:1rem; display:flex; justify-content:center; align-items:center; gap:8px;" onclick="simulateCheckout()">
+                <i class="fa-solid fa-credit-card"></i> Proceed Secure Gateway
+            </button>
+        </div>
+    </div>
+
+    <div class="analytics-drawer" id="analytics-drawer">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-chart-line"></i> Node Live Metrics</h3>
+            <i class="fas fa-times" id="close-analytics" style="cursor:pointer; font-size:1.2rem;"></i>
+        </div>
+        <div style="padding: 1.5rem 0; display:flex; flex-direction:column; gap:20px;">
+            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius:10px; border:1px solid var(--border-color);">
+                <span style="font-size:0.8rem; color:var(--text-muted);">Total Products In Catalog</span>
+                <h4 style="font-size:1.8rem; font-weight:800; color:var(--primary-color planetary);" id="analytics-catalog-count">0</h4>
+            </div>
+            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius:10px; border:1px solid var(--border-color);">
+                <span style="font-size:0.8rem; color:var(--text-muted);">Wishlist Deployment Size</span>
+                <h4 style="font-size:1.8rem; font-weight:800; color:var(--danger-color);" id="analytics-wish-count">0</h4>
+            </div>
+            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius:10px; border:1px solid var(--border-color);">
+                <span style="font-size:0.8rem; color:var(--text-muted);">Current Gateway Payload Value</span>
+                <h4 style="font-size:1.8rem; font-weight:800; color:var(--accent-color);" id="analytics-bag-value">$0.00</h4>
+            </div>
+            <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius:10px; border:1px solid var(--border-color);">
+                <span style="font-size:0.8rem; color:var(--text-muted);">Server Response Time</span>
+                <h4 style="font-size:1.1rem; font-weight:700;"><i class="fa-solid fa-gauge-high"></i> 14ms (Optimal)</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="quickview-modal">
+        <div class="modal-content">
+            <i class="fas fa-times close-modal" id="close-modal"></i>
+            <img id="modal-img" src="" style="width:45%; height:320px; object-fit:cover; border-radius:12px; border:1px solid var(--border-color);">
+            <div style="display:flex; flex-direction:column; justify-content:space-between; flex:1;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span id="modal-market" style="font-size:0.75rem; font-weight:800; color:var(--primary-color); text-transform:uppercase;"></span>
+                        <span id="modal-shop" style="font-size:0.8rem; background:rgba(255,255,255,0.05); padding:2px 8px; border-radius:12px;"></span>
+                    </div>
+                    <h3 id="modal-title" style="margin-bottom:10px; font-size:1.4rem;">Product Name</h3>
+                    <div id="modal-stars" class="rating-stars" style="margin-bottom: 15px;"></div>
+                    <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.6; margin-bottom:15px;">This premium quality asset is verified under strict distribution filters, maintaining standard benchmarks optimized directly for end tier commercial use structures.</p>
+                </div>
+                <div>
+                    <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 15px;">
+                        <div id="modal-price" style="font-size:1.8rem; color:var(--accent-color); font-weight:800;">$0.00</div>
+                        <div id="modal-old-price" style="font-size:1rem; color:var(--text-muted); text-decoration:line-through;"></div>
+                    </div>
+                    <button id="modal-add-btn" style="width:100%; background:var(--primary-color); color:white; border:none; padding:0.8rem; border-radius:10px; font-weight:700; cursor:pointer;"><i class="fa-solid fa-basket-shopping"></i> Direct Add To Bag</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast-notification">System Notification</div>
+
+    <script>
+        // Smooth Splash Screen Dismissal
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const overlay = document.getElementById('intro-overlay');
+                if(overlay) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.remove(), 600);
+                }
+            }, 1000);
+            updateAnalyticsData();
+        });
+
+        // 🖼️ FIXED DATABASE IMAGE LINKS FOR PRO LEVEL DESIGN VISUALS
+        const productsData = [
+            { id: 1, name: "Premium Wireless Headset Neo", price: 89.99, oldPrice: 120.00, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500", tag: "Trending", category: "audio", market: "Vexora Central", shop: "Sonic Waves", rating: 4.8, reviews: 142, inStock: true, serial: "VX-9021", isFlash: false },
+            { id: 2, name: "Minimalist Smart Chrono Watch", price: 149.99, oldPrice: 199.99, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500", tag: "New", category: "wearables", market: "Vexora Global", shop: "Alpha Tech Lab", rating: 4.5, reviews: 89, inStock: true, serial: "VX-4110", isFlash: true },
+            { id: 3, name: "Mechanical Tactile Keyboard RGB", price: 69.50, oldPrice: 85.00, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500", tag: "Best Seller", category: "gaming", market: "Vexora Central", shop: "Click Dynamics", rating: 4.9, reviews: 310, inStock: true, serial: "VX-7732", isFlash: false },
+            { id: 4, name: "4K Ultra Pro Action Camera Studio", price: 199.00, oldPrice: 249.00, image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500", tag: "Hot Drop", category: "electronics", market: "Vexora Premium", shop: "Alpha Tech Lab", rating: 4.2, reviews: 55, inStock: false, serial: "VX-0012", isFlash: false },
+            { id: 5, name: "Ergonomic Performance Silent Mouse", price: 35.00, oldPrice: 49.99, image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=500", tag: "Sale", category: "gaming", market: "Vexora Central", shop: "Logi Express", rating: 4.6, reviews: 112, inStock: true, serial: "VX-5541", isFlash: true },
+            { id: 6, name: "Acoustic Wave Bluetooth Speaker", price: 45.99, oldPrice: 59.99, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500", tag: "Limited", category: "audio", market: "Vexora Global", shop: "Sonic Waves", rating: 4.4, reviews: 74, inStock: true, serial: "VX-1189", isFlash: false },
+            { id: 7, name: "Pro ANC Noise Cancelling Earbuds", price: 129.99, oldPrice: 179.99, image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500", tag: "Premium", category: "audio", market: "Vexora Premium", shop: "Sonic Waves", rating: 4.7, reviews: 95, inStock: true, serial: "VX-8831", isFlash: false },
+            { id: 8, name: "Vanguard Smart Sport Fitness Band", price: 49.99, oldPrice: 79.99, image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=500", tag: "Flash Sale", category: "wearables", market: "Vexora Global", shop: "Alpha Tech Lab", rating: 4.3, reviews: 210, inStock: true, serial: "VX-2219", isFlash: true },
+            { id: 9, name: "Quantum RGB Gaming Mouse Pad", price: 24.99, oldPrice: 39.99, image: "https://images.unsplash.com/photo-1625874244666-51cfbf45e060?w=500", tag: "Gears", category: "gaming", market: "Vexora Central", shop: "Click Dynamics", rating: 4.8, reviews: 180, inStock: true, serial: "VX-3342", isFlash: false },
+            { id: 10, name: "Apex Wireless Controller Nexus", price: 59.99, oldPrice: 74.99, image: "https://images.unsplash.com/photo-1600086880634-05a30471b14b?w=500", tag: "Hot Drop", category: "gaming", market: "Vexora Central", shop: "Logi Express", rating: 4.6, reviews: 145, inStock: true, serial: "VX-9911", isFlash: false },
+            { id: 11, name: "Ultra-Wide Cinematic Monitor 34\"", price: 349.99, oldPrice: 420.00, image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500", tag: "Elite", category: "electronics", market: "Vexora Premium", shop: "Alpha Tech Lab", rating: 4.9, reviews: 67, inStock: true, serial: "VX-5040", isFlash: false },
+            { id: 12, name: "Studio Quality Condenser Microphone", price: 79.00, oldPrice: 110.00, image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=500", tag: "Trending", category: "audio", market: "Vexora Central", shop: "Sonic Waves", rating: 4.5, reviews: 123, inStock: true, serial: "VX-6612", isFlash: false },
+            { id: 13, name: "Titanium Luxury Smartwatch Series", price: 299.99, oldPrice: 399.99, image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500", tag: "Luxury", category: "wearables", market: "Vexora Premium", shop: "Alpha Tech Lab", rating: 4.8, reviews: 42, inStock: true, serial: "VX-1090", isFlash: false },
+            { id: 14, name: "Dual-Driver Wireless Sports Pods", price: 39.99, oldPrice: 59.99, image: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=500", tag: "Sale", category: "audio", market: "Vexora Global", shop: "Sonic Waves", rating: 4.1, reviews: 88, inStock: true, serial: "VX-7741", isFlash: true },
+            { id: 15, name: "Compact 60% Mechanical Keyboard", price: 54.99, oldPrice: 69.99, image: "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=500", tag: "New", category: "gaming", market: "Vexora Central", shop: "Click Dynamics", rating: 4.6, reviews: 115, inStock: true, serial: "VX-4491", isFlash: false },
+            { id: 16, name: "Streamer Pro 1080p Auto-Focus WebCam", price: 49.00, oldPrice: 65.00, image: "https://images.unsplash.com/photo-1603162591624-904033ff618b?w=500", tag: "Essential", category: "electronics", market: "Vexora Global", shop: "Logi Express", rating: 4.4, reviews: 202, inStock: true, serial: "VX-5510", isFlash: false },
+            { id: 17, name: "Ecosystem Multi-Device Charging Dock", price: 34.99, oldPrice: 49.99, image: "https://images.unsplash.com/photo-1622445262465-2481c4574875?w=500", tag: "Smart Choice", category: "electronics", market: "Vexora Central", shop: "Alpha Tech Lab", rating: 4.3, reviews: 76, inStock: true, serial: "VX-8812", isFlash: true },
+            { id: 18, name: "Hi-Fi Desktop Reference Speakers", price: 159.99, oldPrice: 199.99, image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500", tag: "Studio", category: "audio", market: "Vexora Premium", shop: "Sonic Waves", rating: 4.7, reviews: 54, inStock: true, serial: "VX-2321", isFlash: false },
+            { id: 19, name: "Rugged Outdoor GPS Smart Tracker", price: 119.50, oldPrice: 149.99, image: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=500", tag: "Adventure", category: "wearables", market: "Vexora Global", shop: "Alpha Tech Lab", rating: 4.5, reviews: 93, inStock: true, serial: "VX-6678", isFlash: false },
+            { id: 20, name: "Pro Gaming Laser Tracking Mouse", price: 79.99, oldPrice: 99.99, image: "https://images.unsplash.com/photo-1625492922105-5914617fd869?w=500", tag: "Top Tier", category: "gaming", market: "Vexora Central", shop: "Click Dynamics", rating: 4.9, reviews: 231, inStock: true, serial: "VX-1245", isFlash: false },
+            { id: 21, name: "Wireless VR Headset Quantum Goggles", price: 399.00, oldPrice: 499.00, image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=500", tag: "Futuristic", category: "gaming", market: "Vexora Premium", shop: "Logi Express", rating: 4.8, reviews: 39, inStock: false, serial: "VX-0099", isFlash: false },
+            { id: 22, name: "Active Noise Isolation Over-Ear Phones", price: 95.00, oldPrice: 130.00, image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500", tag: "Hot Seller", category: "audio", market: "Vexora Central", shop: "Sonic Waves", rating: 4.6, reviews: 167, inStock: true, serial: "VX-8392", isFlash: false },
+            { id: 23, name: "Sleek Aluminum USB-C Hub Adapter", price: 29.99, oldPrice: 45.00, image: "https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=500", tag: "Utility", category: "electronics", market: "Vexora Global", shop: "Logi Express", rating: 4.4, reviews: 312, inStock: true, serial: "VX-7645", isFlash: true },
+            { id: 24, name: "Minimalist Leather Smart Band", price: 65.00, oldPrice: 85.00, image: "https://images.unsplash.com/photo-1517502884422-41eaaced0168?w=500", tag: "Elegant", category: "wearables", market: "Vexora Premium", shop: "Alpha Tech Lab", rating: 4.2, reviews: 48, inStock: true, serial: "VX-3102", isFlash: false },
+            { id: 25, name: "RGB LED Smart Accent Light Bars", price: 42.50, oldPrice: 59.99, image: "https://images.unsplash.com/photo-1565814636199-ae8133055c1c?w=500", tag: "Setup", category: "gaming", market: "Vexora Central", shop: "Click Dynamics", rating: 4.5, reviews: 140, inStock: true, serial: "VX-9124", isFlash: true },
+            { id: 26, name: "High-Speed NVMe M.2 Internal SSD 2TB", price: 139.99, oldPrice: 169.99, image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=500", tag: "Storage", category: "electronics", market: "Vexora Global", shop: "Logi Express", rating: 4.9, reviews: 189, inStock: true, serial: "VX-4045", isFlash: false },
+            { id: 27, name: "Deep Bass Waterproof Pool Speaker", price: 55.00, oldPrice: 75.00, image: "https://images.unsplash.com/photo-1589256469067-ea99122bbec4?w=500", tag: "Outdoor", category: "audio", market: "Vexora Global", shop: "Sonic Waves", rating: 4.3, reviews: 99, inStock: true, serial: "VX-1120", isFlash: false },
+            { id: 28, name: "Hybrid Smartwatch Analog Interface", price: 179.99, oldPrice: 220.00, image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500", tag: "Classic", category: "wearables", market: "Vexora Premium", shop: "Alpha Tech Lab", rating: 4.6, reviews: 61, inStock: true, serial: "VX-8890", isFlash: false },
+            { id: 29, name: "Premium Flight Simulator Joystick", price: 124.99, oldPrice: 149.99, image: "https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?w=500", tag: "Specialist", category: "gaming", market: "Vexora Central", shop: "Click Dynamics", rating: 4.7, reviews: 52, inStock: true, serial: "VX-3721", isFlash: false },
+            { id: 30, name: "Ultra Thin Portable Power Bank 20k", price: 39.99, oldPrice: 55.00, image: "https://images.unsplash.com/photo-1609592424085-f5da48dc79df?w=500", tag: "Travel", category: "electronics", market: "Vexora Central", shop: "Logi Express", rating: 4.5, reviews: 270, inStock: true, serial: "VX-6610", isFlash: true },
+            { id: 31, name: "Studio Reference Closed-Back Phones", price: 189.00, oldPrice: 230.00, image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500", tag: "Pro Audio", category: "audio", market: "Vexora Premium", shop: "Sonic Waves", rating: 4.8, reviews: 83, inStock: true, serial: "VX-9901", isFlash: false },
+            { id: 32, name: "Full Ring Light Content Creator Kit", price: 34.50, oldPrice: 49.99, image: "https://images.unsplash.com/photo-1616423641454-ab05658097b6?w=500", tag: "Creator", category: "electronics", market: "Vexora Central", shop: "Logi Express", rating: 4.4, reviews: 156, inStock: true, serial: "VX-2034", isFlash: false },
+            { id: 33, name: "Smart Fitness Watch Carbon Finish", price: 89.99, oldPrice: 119.99, image: "https://images.unsplash.com/photo-1551816258-f1f313bc2db5?w=500", tag: "Sport", category: "wearables", market: "Vexora Global", shop: "Alpha Tech Lab", rating: 4.5, reviews: 118, inStock: true, serial: "VX-7761", isFlash: false },
+            { id: 34, name: "Ergonomic High-Back Gaming Throne", price: 249.99, oldPrice: 299.99, image: "https://images.unsplash.com/photo-1598550476439-6847785fce6e?w=500", tag: "Furniture", category: "gaming", market: "Vexora Premium", shop: "Click Dynamics", rating: 4.8, reviews: 41, inStock: true, serial: "VX-8300", isFlash: false },
+            { id: 35, name: "Pocket Size Smart Pico Projector", price: 219.00, oldPrice: 269.00, image: "https://images.unsplash.com/photo-1535016120720-40c646be5580?w=500", tag: "Cinema", category: "electronics", market: "Vexora Premium", shop: "Alpha Tech Lab", rating: 4.3, reviews: 33, inStock: true, serial: "VX-5421", isFlash: false },
+            { id: 36, name: "True Wireless Micro Stealth Buds", price: 69.99, oldPrice: 89.99, image: "https://images.unsplash.com/photo-1558089687-f282ffcbd1d5?w=500", tag: "Mini", category: "audio", market: "Vexora Central", shop: "Sonic Waves", rating: 4.2, reviews: 104, inStock: true, serial: "VX-1627", isFlash: true },
+            { id: 37, name: "RGB Under-Desk Ambient Neon Strip", price: 19.99, oldPrice: 29.99, image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500", tag: "Glow", category: "gaming", market: "Vexora Global", shop: "Click Dynamics", rating: 4.6, reviews: 245, inStock: true, serial: "VX-2900", isFlash: true },
+            { id: 38, name: "Enterprise Dual-Bay External HDD Enclosure", price: 59.99, oldPrice: 79.99, image: "https://images.unsplash.com/photo-1601524909162-be87252be298?w=500", tag: "Network", category: "electronics", market: "Vexora Central", shop: "Logi Express", rating: 4.4, reviews: 62, inStock: true, serial: "VX-9345", isFlash: false },
+            { id: 39, name: "Fashion Futuristic Smart Glasses", price: 159.00, oldPrice: 199.00, image: "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=500", tag: "Trend Edge", category: "wearables", market: "Vexora Premium", shop: "Alpha Tech Lab", rating: 4.1, reviews: 27, inStock: false, serial: "VX-1100", isFlash: false },
+            { id: 40, name: "Wireless Keyboard and Trackpad Combo", price: 39.99, oldPrice: 49.99, image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500", tag: "Office", category: "gaming", market: "Vexora Global", shop: "Logi Express", rating: 4.5, reviews: 132, inStock: true, serial: "VX-3829", isFlash: false },
+            { id: 41, name: "Audiophile Open-Back Headphones", price: 299.99, oldPrice: 350.00, image: "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=500", tag: "Masterpiece", category: "audio", market: "Vexora Premium", shop: "Sonic Waves", rating: 4.9, reviews: 21, inStock: true, serial: "VX-7700", isFlash: false },
+            { id: 42, name: "Smart Wi-Fi Customizable Matrix Clock", price: 45.00, oldPrice: 59.99, image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500", tag: "Gadget", category: "electronics", market: "Vexora Central", shop: "Click Dynamics", rating: 4.4, reviews: 87, inStock: true, serial: "VX-5011", isFlash: true },
+            { id: 43, name: "Minimalist Lightweight Sport Tracker", price: 35.99, oldPrice: 49.99, image: "https://images.unsplash.com/photo-1557438159-51eec7a6c9e8?w=500", tag: "Lite", category: "wearables", market: "Vexora Global", shop: "Alpha Tech Lab", rating: 4.2, reviews: 164, inStock: true, serial: "VX-6102", isFlash: true },
+            { id: 44, name: "Pro Arcade Fight Stick Controller", price: 119.99, oldPrice: 149.99, image: "https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=500", tag: "Retro", category: "gaming", market: "Vexora Central", shop: "Click Dynamics", rating: 4.7, reviews: 43, inStock: true, serial: "VX-4490", isFlash: false },
+            { id: 45, name: "Super-Fast GaN Wall Charger 100W", price: 29.50, oldPrice: 39.99, image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500", tag: "Power", category: "electronics", market: "Vexora Global", shop: "Logi Express", rating: 4.6, reviews: 310, inStock: true, serial: "VX-1044", isFlash: true },
+            { id: 46, name: "Soundbar System Elite with Subwoofer", price: 199.99, oldPrice: 249.99, image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500", tag: "Theater", category: "audio", market: "Vexora Premium", shop: "Sonic Waves", rating: 4.7, reviews: 59, inStock: true, serial: "VX-3821", isFlash: false },
+            { id: 47, name: "Smart Scale Body Composition Sync", price: 24.99, oldPrice: 34.99, image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=500", tag: "Health", category: "wearables", market: "Vexora Global", shop: "Alpha Tech Lab", rating: 4.5, reviews: 194, inStock: true, serial: "VX-9201", isFlash: false },
+            { id: 48, name: "Mechanical Macro Numeric Keypad", price: 19.99, oldPrice: 29.99, image: "https://images.unsplash.com/photo-1595225476474-87563907a212?w=500", tag: "Numpad", category: "gaming", market: "Vexora Central", shop: "Click Dynamics", rating: 4.8, reviews: 73, inStock: true, serial: "VX-1122", isFlash: true },
+            { id: 49, name: "Magnetic Wireless Car Dashboard Charger", price: 27.00, oldPrice: 35.00, image: "https://images.unsplash.com/photo-1586105251261-72a756497a11?w=500", tag: "Car Kit", category: "electronics", market: "Vexora Global", shop: "Logi Express", rating: 4.3, reviews: 112, inStock: true, serial: "VX-8302", isFlash: false },
+            { id: 50, name: "Premium Hard-Shell Equipment Tech Case", price: 49.99, oldPrice: 65.00, image: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500", tag: "Protection", category: "electronics", market: "Vexora Premium", shop: "Logi Express", rating: 4.7, reviews: 85, inStock: true, serial: "VX-5001", isFlash: false }
+        ];
+
+        let cart = [];
+        let wishlistedItems = [];
+        let currentCurrency = 'USD';
+        let currencyRates = { USD: 1, EUR: 0.92, PKR: 278.50 };
+        let currencySymbols = { USD: '$', EUR: '€', PKR: 'Rs.' };
+        let activeFlashFilter = false;
+
+        // UI Target Node Reference Elements Pointers
+        const productsGrid = document.getElementById('products-grid');
+        const searchInput = document.getElementById('search-input');
+        const categoryFilter = document.getElementById('category-filter');
+        const cartCountElement = document.getElementById('cart-count');
+        const wishlistCountElement = document.getElementById('wishlist-count');
+        const cartDrawer = document.getElementById('cart-drawer');
+        const analyticsDrawer = document.getElementById('analytics-drawer');
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartTotalAmount = document.getElementById('cart-total-amount');
+        const toast = document.getElementById('toast-notification');
+
+        // Dynamic Product Render Engine
+        function displayProducts(productsList) {
+            productsGrid.innerHTML = "";
+            if(productsList.length === 0) {
+                productsGrid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:var(--text-muted); padding: 5rem 1rem;"><i class="fa-solid fa-box-open" style="font-size:3rem; margin-bottom:15px;"></i><p>No products match your custom marketplace filters.</p></div>`;
+                return;
+            }
+
+            productsList.forEach(product => {
+                const isWish = wishlistedItems.includes(product.id) ? 'active' : '';
+                const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+                
+                // Live Currency Conversion Formula Processing
+                const convertedPrice = (product.price * currencyRates[currentCurrency]).toFixed(2);
+                const convertedOldPrice = (product.oldPrice * currencyRates[currentCurrency]).toFixed(2);
+                const sym = currencySymbols[currentCurrency];
+
+                let starsHtml = '';
+                for(let i=1; i<=5; i++) {
+                    starsHtml += i <= Math.floor(product.rating) ? `<i class="fa-solid fa-star"></i>` : `<i class="fa-regular fa-star"></i>`;
+                }
+
+                const cardHtml = `
+                    <div class="product-card">
+                        <div class="card-market-header">
+                            <span class="market-title-badge"><i class="fa-solid fa-network-wired"></i> ${product.market}</span>
+                            <span class="shop-name-badge"><i class="fa-solid fa-shop"></i> ${product.shop}</span>
+                        </div>
+
+                        <div class="card-badges">
+                            <span class="product-badge">${product.tag} (-${discount}%)</span>
+                            <span class="stock-badge ${product.inStock ? '' : 'out'}">${product.inStock ? 'In Stock' : 'Out of Stock'}</span>
+                        </div>
+
+                        <button class="wishlist-btn ${isWish}" onclick="toggleWishlist(${product.id}, this)">
+                            <i class="fas fa-heart"></i>
+                        </button>
+
+                        <div class="product-image-wrapper" onclick="openQuickView(${product.id})">
+                            <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                        </div>
+
+                        <div class="product-details">
+                            <div class="rating-stars">
+                                ${starsHtml} <span class="rating-count">(${product.reviews})</span>
+                            </div>
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price-row">
+                                <div class="price-container">
+                                    <span class="old-price">${sym}${convertedOldPrice}</span>
+                                    <span class="product-price">${sym}${convertedPrice}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card-meta-metrics">
+                                <span>SKU: ${product.serial}</span>
+                                <span style="color: var(--accent-color);"><i class="fa-solid fa-truck-fast"></i> Express</span>
+                            </div>
+
+                            <div class="card-action-btns" style="margin-top: 12px;">
+                                <button class="btn-add-cart" ${product.inStock ? '' : 'disabled style="background:#475569; cursor:not-allowed;"'} onclick="addToCart(${product.id})">
+                                    <i class="fa-solid fa-basket-shopping"></i> ${product.inStock ? 'Add to Bag' : 'Sold Out'}
+                                </button>
+                                <button class="btn-quick-view" title="Quick Overview View" onclick="openQuickView(${product.id})"><i class="fa-solid fa-eye"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productsGrid.innerHTML += cardHtml;
+            });
+        }
+
+        // Search Filter Control Panel System Engine
+        function filterAndSortEngine() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const selectedCategory = categoryFilter.value;
+            const selectedSort = document.getElementById('sort-filter').value;
+            const selectedVendor = document.getElementById('vendor-filter').value;
+            const stockFilter = document.getElementById('stock-filter').value;
+
+            let filtered = productsData.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) || product.shop.toLowerCase().includes(searchTerm) || product.market.toLowerCase().includes(searchTerm);
+                const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+                const matchesVendor = selectedVendor === 'all' || product.shop === selectedVendor;
+                const matchesStock = stockFilter === 'all' || (stockFilter === 'in' && product.inStock);
+                const matchesFlash = !activeFlashFilter || product.isFlash;
+                return matchesSearch && matchesCategory && matchesVendor && matchesStock && matchesFlash;
+            });
+
+            if(selectedSort === "low-high") {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if(selectedSort === "high-low") {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if(selectedSort === "rating") {
+                filtered.sort((a, b) => b.rating - a.rating);
+            } else if(selectedSort === "discount") {
+                filtered.sort((a, b) => (b.oldPrice - b.price) - (a.oldPrice - a.price));
+            }
+
+            displayProducts(filtered);
+        }
+
+        // Live Currency Switching Node
+        function changeCurrency(val) {
+            currentCurrency = val;
+            filterAndSortEngine();
+            updateCartDrawer();
+            showToast(`Currency shifted to ${val}`);
+        }
+
+        // Flash Sales Toggle Layout Feature
+        function flashDealsFilter() {
+            activeFlashFilter = !activeFlashFilter;
+            const btn = document.getElementById('flash-deal-btn');
+            if(activeFlashFilter) {
+                btn.style.background = "var(--primary-color)";
+                btn.style.color = "#fff";
+                showToast("Filtering live node flash sale allocations only.");
+            } else {
+                btn.style.background = "var(--card-bg)";
+                btn.style.color = "var(--text-main)";
+                showToast("Flash deal parameters relaxed.");
+            }
+            filterAndSortEngine();
+        }
+
+        // Cart Actions Engine Wrapper
+        function addToCart(productId) {
+            const item = productsData.find(p => p.id === productId);
+            if(item && item.inStock) {
+                cart.push(item);
+                cartCountElement.innerText = cart.length;
+                updateCartDrawer();
+                updateAnalyticsData();
+                showToast(`Secured ${item.name} inside checkout container!`);
+            }
+        }
+
+        function updateCartDrawer() {
+            cartItemsContainer.innerHTML = "";
+            let total = 0;
+            const sym = currencySymbols[currentCurrency];
+            
+            if(cart.length === 0) {
+                cartItemsContainer.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding-top:4rem;"><i class="fa-solid fa-bag-shopping" style="font-size:2.5rem; margin-bottom:10px;"></i><p>Your bag is empty.</p></div>`;
+                cartTotalAmount.innerText = `${sym}0.00`;
+                return;
+            }
+            cart.forEach((item, idx) => {
+                const priceConverted = (item.price * currencyRates[currentCurrency]).toFixed(2);
+                total += item.price;
+                cartItemsContainer.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" class="cart-item-img">
+                        <div style="flex-grow:1;">
+                            <div style="font-size:0.9rem; font-weight:700; color:var(--text-main);">${item.name}</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">${item.shop}</div>
+                            <div style="font-size:0.85rem; color:var(--accent-color); font-weight:700; margin-top:2px;">${sym}${priceConverted}</div>
+                        </div>
+                        <i class="fas fa-trash-alt" style="color:var(--danger-color); cursor:pointer; padding:5px;" onclick="removeCartItem(${idx})"></i>
+                    </div>
+                `;
+            });
+            cartTotalAmount.innerText = `${sym}${(total * currencyRates[currentCurrency]).toFixed(2)}`;
+            updateAnalyticsData();
+        }
+
+        // System Remove Allocation Handler
+        function removeCartItem(idx) {
+            cart.splice(idx, 1);
+            cartCountElement.innerText = cart.length;
+            updateCartDrawer();
+            showToast("Item removed from checkout allocations.");
+        }
+
+        // Wishlist System Engine Block
+        function toggleWishlist(id, btn) {
+            if(wishlistedItems.includes(id)) {
+                wishlistedItems = wishlistedItems.filter(item => item !== id);
+                btn.classList.remove('active');
+                showToast("Removed from secure Wishlist vault.");
+            } else {
+                wishlistedItems.push(id);
+                btn.classList.add('active');
+                showToast("Encrypted and added to Wishlist vault.");
+            }
+            wishlistCountElement.innerText = wishlistedItems.length;
+            updateAnalyticsData();
+        }
+
+        // Real-Time System Analytics Data Refresher Matrix
+        function updateAnalyticsData() {
+            document.getElementById('analytics-catalog-count').innerText = productsData.length;
+            document.getElementById('analytics-wish-count').innerText = wishlistedItems.length;
+            
+            let total = 0;
+            cart.forEach(item => total += item.price);
+            const sym = currencySymbols[currentCurrency];
+            document.getElementById('analytics-bag-value').innerText = `${sym}${(total * currencyRates[currentCurrency]).toFixed(2)}`;
+        }
+
+        // Quick View Allocation Manager
+        function openQuickView(id) {
+            const item = productsData.find(p => p.id === id);
+            if(item) {
+                const sym = currencySymbols[currentCurrency];
+                document.getElementById('modal-img').src = item.image;
+                document.getElementById('modal-title').innerText = item.name;
+                document.getElementById('modal-market').innerHTML = `<i class="fa-solid fa-network-wired"></i> Platform: ${item.market}`;
+                document.getElementById('modal-shop').innerHTML = `<i class="fa-solid fa-shop"></i> Shop: ${item.shop}`;
+                document.getElementById('modal-price').innerText = `${sym}${(item.price * currencyRates[currentCurrency]).toFixed(2)}`;
+                document.getElementById('modal-old-price').innerText = `${sym}${(item.oldPrice * currencyRates[currentCurrency]).toFixed(2)}`;
+                
+                let starsHtml = '';
+                for(let i=1; i<=5; i++) {
+                    starsHtml += i <= Math.floor(item.rating) ? `<i class="fa-solid fa-star"></i>` : `<i class="fa-regular fa-star"></i>`;
+                }
+                document.getElementById('modal-stars').innerHTML = starsHtml + ` <span style="color:var(--text-muted); font-size:0.8rem; margin-left:5px;">${item.rating} (${item.reviews} reviews)</span>`;
+                
+                const btn = document.getElementById('modal-add-btn');
+                if(item.inStock) {
+                    btn.disabled = false;
+                    btn.style.background = "var(--primary-color)";
+                    btn.innerHTML = `<i class="fa-solid fa-basket-shopping"></i> Add To Bag`;
+                    btn.onclick = function() { addToCart(item.id); };
+                } else {
+                    btn.disabled = true;
+                    btn.style.background = "#475569";
+                    btn.innerHTML = "Out of Stock";
+                }
+
+                document.getElementById('quickview-modal').style.display = 'flex';
+            }
+        }
+
+        // Simulation Loop Elements for Live Traffic Engine Mocking
+        setInterval(() => {
+            const randomChange = Math.floor(Math.random() * 7) - 3;
+            const countEl = document.getElementById('live-visitor-count');
+            if(countEl) {
+                let current = parseInt(countEl.innerText.replace(/[^0-9]/g, '')) || 1450;
+                countEl.innerHTML = `<i class="fa-solid fa-users"></i> Users Live: ${(current + randomChange).toLocaleString()}`;
+            }
+        }, 4000);
+
+        // Global Event System Node Listeners
+        searchInput.addEventListener('input', filterAndSortEngine);
+        categoryFilter.addEventListener('change', filterAndSortEngine);
+
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const icon = themeToggle.querySelector('i');
+            icon.className = document.body.classList.contains('light-theme') ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        document.getElementById('cart-toggle').addEventListener('click', () => cartDrawer.classList.add('active'));
+        document.getElementById('close-cart').addEventListener('click', () => cartDrawer.classList.remove('active'));
+        document.getElementById('analytics-toggle').addEventListener('click', () => analyticsDrawer.classList.add('active'));
+        document.getElementById('close-analytics').addEventListener('click', () => analyticsDrawer.classList.remove('active'));
+        document.getElementById('close-modal').addEventListener('click', () => document.getElementById('quickview-modal').style.display = 'none');
+        
+        document.getElementById('wishlist-toggle-panel').addEventListener('click', () => {
+            const wishItems = productsData.filter(p => wishlistedItems.includes(p.id));
+            displayProducts(wishItems);
+            showToast("Showing catalog items filtered by Wishlist.");
+        });
+
+        function simulateCheckout() {
+            if(cart.length === 0) return;
+            showToast("Redirecting connection payload to encrypted terminal...");
+            setTimeout(() => {
+                alert("Secure Checkout Complete! Order processed via Vexora Core Node Integration.");
+                cart = [];
+                cartCountElement.innerText = "0";
+                updateCartDrawer();
+                cartDrawer.classList.remove('active');
+            }, 1000);
+        }
+
+        function showToast(msg) {
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // App Initial Launch Fire
+        document.addEventListener('DOMContentLoaded', () => {
+            displayProducts(productsData);
+        });
+    </script>
+</body>
+</html>
